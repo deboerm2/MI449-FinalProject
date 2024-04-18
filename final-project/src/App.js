@@ -11,16 +11,7 @@ const requestOptions = {
   headers: myHeaders,
   redirect: "follow"
 };
-/*
-const monsterList = fetch("https://www.dnd5eapi.co/api/monsters", requestOptions)
-  .then((response) => response.text())
-  .then((json) => json.results.map( monster => 
-  <p key = {monster.index}>
-    console.log(monster.name)
-  </p>
-  ))
-  //console.log(monsterList)
-  */
+
 
   const response = await fetch(
     "https://www.dnd5eapi.co/api/monsters", requestOptions
@@ -47,10 +38,7 @@ function ListMonsters(){
     output
   )
 }
-function DisplayMonsterInfo(){
-  
-    
-}
+
 
 function ListSpells(){
   const output = spellList.results.map( spell => 
@@ -66,14 +54,7 @@ function ListSpells(){
    output
  )
 }
-async function CheckSpells(spell){
-  if( await fetch(`https://www.dnd5eapi.co/api/spells/${spell.index}`, requestOptions)
-  .then((response) => response.json)
-  .then((json) => json.hasOwnProperty('damage')))
-  {
-    return spell;
-  }
-}
+
 
 function App() {
   return (
