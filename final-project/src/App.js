@@ -1,70 +1,35 @@
 
 import './App.css';
+import { ListMonsters, ListSpells } from './List'
+import Form from './Form.js';
+import * as React from 'react';
 
-
-const myHeaders = new Headers();
-myHeaders.append("Accept", "application/json");
-
-
-const requestOptions = {
-  method: "GET",
-  headers: myHeaders,
-  redirect: "follow"
-};
-
-
-  const response = await fetch(
-    "https://www.dnd5eapi.co/api/monsters", requestOptions
-  );
-  const monsterList = await response.json();
-  const response2 = await fetch(
-    "https://www.dnd5eapi.co/api/spells", requestOptions
-  );
-  const spellList = await response2.json();
-
-function ListMonsters(){
-   const output = monsterList.results.map( monster => 
-    
-    <li
-    key={monsterList.results.index}
-    style={{
-      color: 'red'
-    }}
-    >
-      {monster.name}
-    </li>
-  );
-  return(
-    output
-  )
-}
-
-
-function ListSpells(){
-  const output = spellList.results.map( spell => 
-    <li
-    key={spell.index}
-    >
-    {spell.name}
-    </li> 
-    
- 
-);
- return(
-   output
- )
-}
 
 
 function App() {
+  
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(!open);
+  }
+
+
   return (
     <div className="App">
-      <header className="App-Header">
+     
+      <Form useList='monsters'/>
+      <ListSpells/>
+      <Form useList='spells'/>
+      
 
-     <ListMonsters/>
-     <ListSpells/>
-        
-      </header>
+      <button onClick={handleOpen}>Dropdown</button>
+      {open ? (
+        <ul className="menu">
+          <ListMonsters/>
+        </ul>
+      ) : null}
+      {open ? <div>Is Open</div> : <div>Is Closed</div>}
     </div>
   );
 }
