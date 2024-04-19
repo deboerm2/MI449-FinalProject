@@ -8,10 +8,15 @@ import * as React from 'react';
 
 function App() {
   
-  const [open, setOpen] = React.useState(false);
+  const [openMon, setOpenMon] = React.useState(false);
+  const [openSpell, setOpenSpell] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(!open);
+
+  const handleOpenMon = () => {
+    setOpenMon(!openMon);
+  }
+  const handleOpenSpell = () => {
+    setOpenSpell(!openSpell);
   }
 
 
@@ -19,17 +24,25 @@ function App() {
     <div className="App">
      
       <Form useList='monsters'/>
-      <ListSpells/>
+    
       <Form useList='spells'/>
       
 
-      <button onClick={handleOpen}>Dropdown</button>
-      {open ? (
+      <button onClick={handleOpenMon}>Dropdown</button>
+      {openMon ? (
         <ul className="menu">
           <ListMonsters/>
         </ul>
       ) : null}
-      {open ? <div>Is Open</div> : <div>Is Closed</div>}
+      {openMon ? <div>Is Open</div> : <div>Is Closed</div>}
+
+      <button onClick={handleOpenSpell}>Dropdown</button>
+      {openSpell ? (
+        <ul className="menu">
+          <ListSpells/>
+        </ul>
+      ) : null}
+      {openSpell ? <div>Is Open</div> : <div>Is Closed</div>}
     </div>
   );
 }

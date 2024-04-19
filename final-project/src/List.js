@@ -27,7 +27,9 @@ export function ListMonsters(){
       color: 'red'
     }}
     className="menu-item">
-        <button>{monster.name}</button>
+        <button onClick={ () => {ShowMonsterInfo(monster.index)}}>
+            {monster.name}
+        </button>
     </li>
   );
   return(
@@ -52,4 +54,8 @@ export function ListSpells(){
  return(
    output
  )
+}
+
+function ShowMonsterInfo(index){
+    console.log(index);
 }
