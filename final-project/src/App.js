@@ -1,6 +1,6 @@
 
 import './App.css';
-import { ListMonsters, ListSpells } from './List'
+import { ListMonsters, ListSpells, DisplayMonsterInfo } from './List'
 import Form from './Form.js';
 import * as React from 'react';
 
@@ -10,6 +10,8 @@ function App() {
   
   const [openMon, setOpenMon] = React.useState(false);
   const [openSpell, setOpenSpell] = React.useState(false);
+  const [monsterData, setMonsterData] = React.useState(false);
+  const [spellData, setSpellData] = React.useState(false);
 
 
   const handleOpenMon = () => {
@@ -23,10 +25,7 @@ function App() {
   return (
     <div className="App">
      
-      <Form useList='monsters'/>
-    
-      <Form useList='spells'/>
-      
+     <DisplayMonsterInfo/> 
 
       <button onClick={handleOpenMon}>Dropdown</button>
       {openMon ? (

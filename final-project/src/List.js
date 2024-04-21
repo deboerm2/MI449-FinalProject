@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 const myHeaders = new Headers();
 myHeaders.append("Accept", "application/json");
 
@@ -8,6 +10,8 @@ const requestOptions = {
   redirect: "follow"
 };
 
+  var ShownMonster
+  var ShownSpell
 
   const response = await fetch(
     "https://www.dnd5eapi.co/api/monsters", requestOptions
@@ -19,6 +23,9 @@ const requestOptions = {
   export const spellList = await response2.json();
 
 export function ListMonsters(){
+
+  const [monsterData, setMonsterData] = React.useState(false);
+
    const output = monsterList.results.map( monster => 
 
     <li
@@ -27,7 +34,7 @@ export function ListMonsters(){
       color: 'red'
     }}
     className="menu-item">
-        <button onClick={ () => {ShowMonsterInfo(monster.index)}}>
+        <button onClick={ () => {GetMonsterInfo(monster.index); setMonsterData(true)}}>
             {monster.name}
         </button>
     </li>
@@ -45,8 +52,10 @@ export function ListSpells(){
     style={{
         color: 'blue'
     }}
-    >
-    {spell.name}
+    className="menu-item">
+        <button onClick={ () => {GetSpellInfo(spell.index)}}>
+            {spell.name}
+        </button>
     </li> 
     
  
@@ -56,6 +65,34 @@ export function ListSpells(){
  )
 }
 
-function ShowMonsterInfo(index){
-    console.log(index);
+async function GetMonsterInfo(index){
+    var response = await fetch(`https://www.dnd5eapi.co/api/monsters/${index}`, requestOptions)
+    ShownMonster = await response.json();             
+    
 }
+
+async function GetSpellInfo(index){
+  var response = await fetch(`https://www.dnd5eapi.co/api/spells/${index}`, requestOptions)
+    ShownSpell = await response.json(); 
+    console.log(ShownSpell)
+}
+
+export function DisplayMonsterInfo(){
+ 
+
+  const output = ShownMonster
+  if(output == null)
+    return null
+  else
+    return (
+  <ul>
+    <li>Name: {output.name}</li>
+    <li>Alignment: {output.alignment}</li>
+    <li>Hit Points: {output.hit_points}</li>
+    <li>Resistances: {output.damage_resistances}</li>
+    <li>Type: {output.type}</li>
+  </ul>)
+  
+  
+}
+
