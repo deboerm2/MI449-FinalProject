@@ -16,9 +16,11 @@ function App() {
 
   const handleOpenMon = () => {
     setOpenMon(!openMon);
+    setOpenSpell(false);
   }
   const handleOpenSpell = () => {
     setOpenSpell(!openSpell);
+    setOpenMon(false);
   }
 
 
@@ -27,8 +29,9 @@ function App() {
      
      <DisplayMonsterInfo/> 
      <DisplaySpellInfo/>
+    
      <Compare/>
-
+     <br/>
       <button onClick={handleOpenMon}>Dropdown</button>
       {openMon ? (
         <ul className="menu">

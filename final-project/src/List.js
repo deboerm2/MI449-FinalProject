@@ -1,4 +1,4 @@
-import * as React from 'react';
+
 
 const myHeaders = new Headers();
 myHeaders.append("Accept", "application/json");
@@ -24,8 +24,6 @@ const requestOptions = {
 
 export function ListMonsters(){
 
-  const [monsterData, setMonsterData] = React.useState(false);
-
    const output = monsterList.results.map( monster => 
 
     <li
@@ -34,17 +32,13 @@ export function ListMonsters(){
       color: 'red'
     }}
     className="menu-item">
-        <button onClick={ () => {GetMonsterInfo(monster.index); setMonsterData(true)}}>
+        <button onClick={ () => {GetMonsterInfo(monster.index)}}>
             {monster.name}
         </button>
     </li>
   );
-  return(
-    output
-  )
+  return(output)
 }
-
-
 export function ListSpells(){
   const output = spellList.results.map( spell => 
     <li
@@ -57,18 +51,16 @@ export function ListSpells(){
             {spell.name}
         </button>
     </li> 
-    
- 
 );
  return(
+  
    output
  )
 }
 
 async function GetMonsterInfo(index){
     var response = await fetch(`https://www.dnd5eapi.co/api/monsters/${index}`, requestOptions)
-    ShownMonster = await response.json();             
-    
+    ShownMonster = await response.json();           
 }
 
 async function GetSpellInfo(index){
@@ -84,30 +76,59 @@ export function DisplayMonsterInfo(){
     return null
   else
     {monsterResistance = output.damage_resistances
+      monsterImmunities = output.damage_immunities
+      monsterWeaknesses = output.damage_vulnerabilities
       return (
   <ul>
     <li>Name: {output.name}</li>
     <li>Alignment: {output.alignment}</li>
     <li>Hit Points: {output.hit_points}</li>
     <li>Resistances: {output.damage_resistances}</li>
+    <li>Immunities: {output.damage_immunities}</li>
+    <li>Weaknesses: {output.damage_vulnerabilities}</li>
     <li>Type: {output.type}</li>
   </ul>)}
   
 }
 export function DisplaySpellInfo(){
   const output = ShownSpell
+  var damageType
+  var damageNumbersMin
+  var damageNumbersMax
   
   if(output == null)
     return null
   else
-  {spellDamage = output.damage.damage_type.index
+  {damageType = output.damage == null ? "none" : output.damage.damage_type.name
+  if(damageType !== "none")
+   {
+    spellDamage = output.damage.damage_type.name
+    if(output.damage.damage_at_slot_level !== undefined)
+    { 
+      damageNumbersMin = output.damage.damage_at_slot_level[output.level]
+      damageNumbersMax = output.damage.damage_at_slot_level[9]
+      
+    }
+    else{
+      damageNumbersMin = output.damage.damage_at_character_level[1]
+      damageNumbersMax = output.damage.damage_at_character_level["17"]
+    }
+   }
+   else{
+    damageNumbersMin = "none"
+    damageNumbersMax = "none"
+    damageType = "none"
+   }
+   
     return (
   <ul>
     <li>Name: {output.name}</li>
-    <li>Damage Type: {output.damage.damage_type.name}</li>
-    <li>Damage: {output.damage.damage_at_slot_level[3]}</li>
+    <li>Damage Type: {damageType}</li>
+    <li>DamageMinimum: {damageNumbersMin}</li>
+    <li>DamageMaximum: {damageNumbersMax}</li>
   </ul>)}
 }
+
 
 var spellDamage
 var monsterResistance
@@ -115,10 +136,28 @@ var monsterImmunities
 var monsterWeaknesses
 
 export function Compare(){
-  if( monsterResistance !==undefined)
+  if (ShownSpell === undefined || ShownMonster === undefined)
+    return null
+  else 
   {
-    if(monsterResistance.includes(spellDamage) )
-    return `${ShownMonster.name} resists ${spellDamage}`
-  else return "Nope"
-}}
+    var output = "Spell does normal damage"
+    if(spellDamage === undefined)
+    {
+      output = "Spell does no damage"
+      return output
+    }
+
+    if(monsterResistance.includes(spellDamage.toLowerCase()) )
+    output = `${ShownMonster.name} resists ${spellDamage}`
+    if(monsterImmunities.includes(spellDamage.toLowerCase()))
+    output = `${ShownMonster.name} is immune to ${spellDamage}`
+    if(monsterWeaknesses.includes(spellDamage.toLowerCase()))
+    output = `${ShownMonster.name} is weak to ${spellDamage}`
+    
+    return <p>{output}</p>
+}
+}
+
+
+
 
