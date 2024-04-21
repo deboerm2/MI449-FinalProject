@@ -1,6 +1,6 @@
 
 import './App.css';
-import { ListMonsters, ListSpells, DisplayMonsterInfo } from './List'
+import { ListMonsters, ListSpells, DisplayMonsterInfo, DisplaySpellInfo, Compare } from './List'
 import Form from './Form.js';
 import * as React from 'react';
 
@@ -26,6 +26,8 @@ function App() {
     <div className="App">
      
      <DisplayMonsterInfo/> 
+     <DisplaySpellInfo/>
+     <Compare/>
 
       <button onClick={handleOpenMon}>Dropdown</button>
       {openMon ? (

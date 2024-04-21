@@ -74,7 +74,6 @@ async function GetMonsterInfo(index){
 async function GetSpellInfo(index){
   var response = await fetch(`https://www.dnd5eapi.co/api/spells/${index}`, requestOptions)
     ShownSpell = await response.json(); 
-    console.log(ShownSpell)
 }
 
 export function DisplayMonsterInfo(){
@@ -84,15 +83,42 @@ export function DisplayMonsterInfo(){
   if(output == null)
     return null
   else
-    return (
+    {monsterResistance = output.damage_resistances
+      return (
   <ul>
     <li>Name: {output.name}</li>
     <li>Alignment: {output.alignment}</li>
     <li>Hit Points: {output.hit_points}</li>
     <li>Resistances: {output.damage_resistances}</li>
     <li>Type: {output.type}</li>
-  </ul>)
-  
+  </ul>)}
   
 }
+export function DisplaySpellInfo(){
+  const output = ShownSpell
+  
+  if(output == null)
+    return null
+  else
+  {spellDamage = output.damage.damage_type.index
+    return (
+  <ul>
+    <li>Name: {output.name}</li>
+    <li>Damage Type: {output.damage.damage_type.name}</li>
+    <li>Damage: {output.damage.damage_at_slot_level[3]}</li>
+  </ul>)}
+}
+
+var spellDamage
+var monsterResistance
+var monsterImmunities
+var monsterWeaknesses
+
+export function Compare(){
+  if( monsterResistance !==undefined)
+  {
+    if(monsterResistance.includes(spellDamage) )
+    return `${ShownMonster.name} resists ${spellDamage}`
+  else return "Nope"
+}}
 
