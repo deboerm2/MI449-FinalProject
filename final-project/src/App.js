@@ -23,7 +23,7 @@ function App() {
 
 
   return (
-    <div className="App">
+    <div className="App max-w-screen-lg">
      
      <div className='Results flex flex-row'>
      <DisplayMonsterInfo/> 
