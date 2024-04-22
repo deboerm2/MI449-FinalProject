@@ -28,9 +28,7 @@ export function ListMonsters(){
 
     <li
     key={monsterList.results.index}
-    style={{
-      color: 'red'
-    }}
+   
     className="menu-item">
         <button onClick={ () => {GetMonsterInfo(monster.index)}}>
             {monster.name}
@@ -43,9 +41,7 @@ export function ListSpells(){
   const output = spellList.results.map( spell => 
     <li
     key={spell.index}
-    style={{
-        color: 'blue'
-    }}
+    
     className="menu-item">
         <button onClick={ () => {GetSpellInfo(spell.index)}}>
             {spell.name}
@@ -102,7 +98,6 @@ export function DisplaySpellInfo(){
   {damageType = output.damage == null ? "none" : output.damage.damage_type.name
   if(damageType !== "none")
    {
-    spellDamage = output.damage.damage_type.name
     if(output.damage.damage_at_slot_level !== undefined)
     { 
       damageNumbersMin = output.damage.damage_at_slot_level[output.level]
@@ -117,7 +112,6 @@ export function DisplaySpellInfo(){
    else{
     damageNumbersMin = "none"
     damageNumbersMax = "none"
-    damageType = "none"
    }
    
     return (
@@ -130,29 +124,29 @@ export function DisplaySpellInfo(){
 }
 
 
-var spellDamage
+
 var monsterResistance
 var monsterImmunities
 var monsterWeaknesses
 
 export function Compare(){
   if (ShownSpell === undefined || ShownMonster === undefined)
-    return null
+    return <p></p>
   else 
   {
     var output = "Spell does normal damage"
-    if(spellDamage === undefined)
+    if(ShownSpell.damage === undefined)
     {
       output = "Spell does no damage"
-      return output
+      return <p>{output}</p>
     }
 
-    if(monsterResistance.includes(spellDamage.toLowerCase()) )
-    output = `${ShownMonster.name} resists ${spellDamage}`
-    if(monsterImmunities.includes(spellDamage.toLowerCase()))
-    output = `${ShownMonster.name} is immune to ${spellDamage}`
-    if(monsterWeaknesses.includes(spellDamage.toLowerCase()))
-    output = `${ShownMonster.name} is weak to ${spellDamage}`
+    if(monsterResistance.includes(ShownSpell.damage.damage_type.name.toLowerCase()) )
+    output = `${ShownMonster.name} resists ${ShownSpell.damage.damage_type.name}`
+    if(monsterImmunities.includes(ShownSpell.damage.damage_type.name.toLowerCase()))
+    output = `${ShownMonster.name} is immune to ${ShownSpell.damage.damage_type.name}`
+    if(monsterWeaknesses.includes(ShownSpell.damage.damage_type.name.toLowerCase()))
+    output = `${ShownMonster.name} is weak to ${ShownSpell.damage.damage_type.name}`
     
     return <p>{output}</p>
 }

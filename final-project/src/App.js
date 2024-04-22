@@ -1,7 +1,6 @@
 
 import './App.css';
 import { ListMonsters, ListSpells, DisplayMonsterInfo, DisplaySpellInfo, Compare } from './List'
-import Form from './Form.js';
 import * as React from 'react';
 
 
@@ -10,8 +9,7 @@ function App() {
   
   const [openMon, setOpenMon] = React.useState(false);
   const [openSpell, setOpenSpell] = React.useState(false);
-  const [monsterData, setMonsterData] = React.useState(false);
-  const [spellData, setSpellData] = React.useState(false);
+  
 
 
   const handleOpenMon = () => {
@@ -27,26 +25,29 @@ function App() {
   return (
     <div className="App">
      
+     <div className='Results flex flex-row'>
      <DisplayMonsterInfo/> 
-     <DisplaySpellInfo/>
-    
      <Compare/>
-     <br/>
-      <button onClick={handleOpenMon}>Dropdown</button>
+     <DisplaySpellInfo/>
+     
+     </div>
+     
+     <div className='grid grid-cols-2'>
+      <button onClick={handleOpenMon} className="Dropdown grow">Monsters</button>
       {openMon ? (
-        <ul className="menu">
+        <ul className="menu Monsters">
           <ListMonsters/>
         </ul>
-      ) : null}
-      {openMon ? <div>Is Open</div> : <div>Is Closed</div>}
+      ) : <ul className='Monsters'></ul>}
+      
 
-      <button onClick={handleOpenSpell}>Dropdown</button>
+      <button onClick={handleOpenSpell} className='Dropdown grow'>Spells</button>
       {openSpell ? (
-        <ul className="menu">
+        <ul className="menu Spells">
           <ListSpells/>
         </ul>
       ) : null}
-      {openSpell ? <div>Is Open</div> : <div>Is Closed</div>}
+      </div>
     </div>
   );
 }
